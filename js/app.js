@@ -2,13 +2,14 @@ const loadTool = async (tools) =>{
     const url = `https://openapi.programming-hero.com/api/ai/tools`
     const res = await fetch(url);
     const data = await res.json();
-    displayTools(data.data.tools);
+    displayTools(data.data.tools.slice(0, 6));
 }
 
 const displayTools = tools =>{
    
     const toolsContainer = document.getElementById('tools-container');
     let tool = tools[0];
+    toolsContainer.innerHTML = '';
     //display 6 tools only
     /* const seeAll = document.getElementById('see-more');
     if(dataLimit > tools.length){
@@ -46,33 +47,14 @@ const displayTools = tools =>{
             </div>
             `;
         toolsContainer.appendChild(toolDiv);
-
-       /*  const modalDiv = document.createElement('div');
-        modalDiv.classList.add('modal-dialog');
-        modalDiv.innerHTML = `
-        <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    ...
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-                `;
-        modalPopup.appendChild(modalDiv); */
     });
 
 }
 
+// modal popup details
 const loadToolDetails = (id) =>{
-    const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
-    console.log(url);
-    fetch(url)
+    const url2 = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+    fetch(url2)
     .then(res => res.json())
     .then(data => displayToolDetails(data.data))
 }
@@ -123,7 +105,7 @@ const displayToolDetails = tool =>{
             <div class="p-3 w-50">
                 <div class="border border-secondary-subtle rounded p-4">
                 <div class="position-relative">
-                <div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">${tool.accuracy.score ? tool.accuracy.score : 'No data for'} accuracy</div>
+                <div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">${tool.accuracy.score ? tool.accuracy.score: ''}</div>
                 <img src="${tool.image_link[0]}" class="img-fluid rounded">
                 </div>
                 <p class="fs-5 fw-bold text-center mt-4">${tool.input_output_examples ? tool.input_output_examples[0].input : 'Can you give any example?'}</p>
@@ -132,43 +114,33 @@ const displayToolDetails = tool =>{
             </div>
         </div>`;
 }
-// {/* <div class="modal-header">
-// <h1 class="modal-title fs-5" id="modalPopupLabel">${tool.description}</h1>
-
-// </div> */}
-// <div class="modal-footer">
-//         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-  
-//       </div>
 
 /* 
-loadToolDetails = () =>{
-
-    fetch(`https://openapi.programming-hero.com/api/ai/tools`)
-    .then(res=>res.json())
-    .then(data=>showToolDetails(data.data.tools))
+const sortDate = () =>{
+    const url3 = `https://openapi.programming-hero.com/api/ai/tools`;
+    fetch(url3)
+    .then(res => res.json())
+    .then(data => sortDateAscending(data.data.tools[0].published_in))
 }
 
-const showToolDetails = id=>{
-    console.log(id[0]);
-}
+const sortDateAscending = publishedIn =>{
+    console.log(publishedIn);
+    const publishedIn = document.getElementById('tools-container');
+    
+    const date = publishedIn;
+    
+    
+    date.sort(function(a, b){
+        return a - b 
+    });
+    
+    console.log(dates); */ 
+    // const publishedDate = data;
+    // console.log(publishedDate);
+    // var isDescending = true; //set to false for ascending
+    // console.log(publishedDate.sort((a,b) => isDescending ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime()));
 
-loadToolDetails(); */
 
-    // for(let i=01; i++, i<13){
-    //     const id = i;
-    // }
-
-// displayToolDetails = id =>{
-
-// }
-
-// const loadToolDetails = async id =>{
-//     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
-//     const res = await fetch(url);
-//     const data = await res.json();
-//     console.log(data.data);
-// }
 
 /* const processSearch = (tools, dataLimit) =>{
     toggleSpinner(true);
@@ -184,20 +156,7 @@ document.getElementById('sort-date').addEventListener('click', function(){
     });
  */
 
-    /* const date1 = new Date('16 March 2017');
-    const date2 = new Date('01/22/2021');
-    const date3 = new Date('2000-12-31');
-    const dates = [date1, date2, date3];
     
-    dates.sort(function(a, b){
-        return a - b 
-    });
-    
-    console.log(dates); */
-    // const publishedDate = data;
-    // console.log(publishedDate);
-    // var isDescending = true; //set to false for ascending
-    // console.log(publishedDate.sort((a,b) => isDescending ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime()));
 
 /* const toggleSpinner = isLoading => {
 const loaderSection = document.getElementById('spinner');
@@ -211,3 +170,12 @@ const loaderSection = document.getElementById('spinner');
 }  */
 
 loadTool();
+
+const ShowAllTools = async () => {
+    const url = `https://openapi.programming-hero.com/api/ai/tools`
+    const res = await fetch(url);
+    const data = await res.json();
+    displayTools(data.data.tools);
+    const seeMoreButton = document.getElementById('see-more');
+    seeMoreButton.classList.add('d-none');
+}
