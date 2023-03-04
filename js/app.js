@@ -1,3 +1,4 @@
+// display tool cards with API Data
 const loadTool = async (tools) =>{
     const url = `https://openapi.programming-hero.com/api/ai/tools`
     const res = await fetch(url);
@@ -80,6 +81,7 @@ const displayTools = tools =>{
             <p><i class="fa-regular fa-calendar-days"></i>&nbsp;&nbsp;${tool.published_in}</p>
             </div>
             <div>
+            <!--modal popup button--!>
             <button onclick="loadToolDetails('${tool.id}')" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalPopup"><i class="fs-2 fa-regular fa-circle-right"></i></button>
             </div>
             </div>
