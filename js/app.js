@@ -40,6 +40,7 @@ const displayTools = tools =>{
         toolsContainer.appendChild(toolDiv);
     });
 
+    // Sort By Date
     const sorting = (a, b)=>{
         const dateA = new Date(a.published_in);
         const dateB = new Date(b.published_in);
@@ -57,7 +58,6 @@ const displayTools = tools =>{
     const sortedData = tools.sort(sorting);
     
     document.getElementById('sort-by-date').addEventListener('click', function(){
-        console.log(sortedData);
         toolsContainer.innerHTML = '';
         tools.forEach(tool =>{
         const toolSortedDiv = document.createElement('div');
@@ -101,15 +101,16 @@ const loadToolDetails = (id) =>{
 
 const displayToolDetails = tool =>{
     const modalContent = document.getElementById('modal-content-inside');
+    let toolAccuracy = JSON.stringify(tool.accuracy.score);
         modalContent.innerHTML = `
         <button type="button" class="position-absolute top-0 end-0 translate-middle btn-close bg-danger p-2" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div class="modal-body d-flex justify-content-center align-items-stretch">
-            <div class="bg-danger-subtle bg-opacity-25 p-4 border border-danger-subtle rounded w-50">
+        <div class="modal-body m-0 d-flex flex-sm-row flex-md-row flex-column justify-content-center align-items-stretch">
+            <div class="bg-danger-subtle bg-opacity-25 p-4 border border-danger-subtle rounded mr-auto-lg w-50-lg">
                 <div>
                     <h1 class="modal-title fs-5" id="modalPopupLabel">${tool.description ? tool.description : 'No description found'}</h1>
                     <div class="d-flex p-4 text-center justify-content-center align-items-center">
                         <div class="bg-white rounded p-2 m-2">
-                            <div class="text-success-emphasis fw-bold">${tool.pricing ? tool.pricing[0].price : 'Free of Cost/'}</div>
+                            <div class="text-success-emphasis fw-bold">${tool.pricing && tool.pricing === '0' ? tool.pricing[0].price : 'Free of Cost/'}</div>
                             <div class="text-success-emphasis fw-bold">${tool.pricing ? tool.pricing[0].plan : 'Basic'}</div>
                         </div>
                         <div class="bg-white rounded p-2 m-2">
@@ -133,18 +134,18 @@ const displayToolDetails = tool =>{
                     <div>
                     <h5>Integrations</h5>
                         <ul>
-                            <li>${tool.integrations ? tool.integrations[0] : 'No Data Found'}</li>
-                            <li>${tool.integrations ? tool.integrations[1] : 'No Data Found'}</li>
-                            <li>${tool.integrations ? tool.integrations[2] : 'No Data Found'}</li>
+                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[0] : 'No Data Found'}</li>
+                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[1] : 'No Data Found'}</li>
+                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[2] : 'No Data Found'}</li>
                         </ul>
                     </div>
                     </div>
                 </div>
             </div>
-            <div class="p-3 w-50">
+            <div class="p-3 w-50-lg mr-auto-lg">
                 <div class="border border-secondary-subtle rounded p-4">
                 <div class="position-relative">
-                <div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">${tool.accuracy.score ? tool.accuracy.score: ''}</div>
+                <div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">${tool.accuracy.score ? [toolAccuracy*100 + "% accuracy"] : ''}</div>
                 <img src="${tool.image_link[0]}" class="img-fluid rounded">
                 </div>
                 <p class="fs-5 fw-bold text-center mt-4">${tool.input_output_examples ? tool.input_output_examples[0].input : 'Can you give any example?'}</p>
@@ -153,65 +154,6 @@ const displayToolDetails = tool =>{
             </div>
         </div>`;
 }
-
-
-/* 
-const sortDate = () =>{
-    const url3 = `https://openapi.programming-hero.com/api/ai/tools`;
-    fetch(url3)
-    .then(res => res.json())
-    .then(data => customSort(data.data.tools))
-}
-
-customSort = tools =>{
-    const dateA = new Date(tools[0].published_in);
-    const dateB = new Date(tools[1].published_in);
-    const dateC = new Date(tools[3].published_in);
-    const dateD = new Date(tools[4].published_in);
-    const dateE = new Date(tools[5].published_in);
-    const dateF = new Date(tools[6].published_in);
-    const dateG = new Date(tools[7].published_in);
-    const dateH = new Date(tools[8].published_in);
-    const dateI = new Date(tools[9].published_in);
-    const dateJ = new Date(tools[10].published_in);
-    const dateK = new Date(tools[11].published_in);
-    // const dateL = new Date(tools[12].published_in);
-    console.log(dateA, dateB, dateC);
-    let sortedProducts = tools.sort(
-        (dateA, dateB) => 
-        (dateC < dateB) ? 1 : (dateC > dateB) ? -1 : 0);
-    console.log(sortedProducts);
-    if (dateA < dateB) {
-        console.log('dateB is greater');
-        return 1;
-    }
-    else if (dateA > dateB) {
-        console.log('dateA is greater)');
-        return -1;
-    }
-    else{
-        console.log('They are equal');
-        return 0;
-    }
-}
- */
-// displayTools.sort(customSort);
-// var res = myarray.sort((dateA, dateB) => dateA - dateB);
-// console.log(res);
-
-// myarray.sort((a,b) => b.age - a.age)
-
-    /*
-    date.sort(function(a, b){
-        return a - b 
-    });
-    
-    console.log(dates); */ 
-    // const publishedDate = data;
-    // console.log(publishedDate);
-    // var isDescending = true; //set to false for ascending
-    // console.log(publishedDate.sort((a,b) => isDescending ? new Date(b).getTime() - new Date(a).getTime() : new Date(a).getTime() - new Date(b).getTime()));
-
 
     
 // Spinner to show on Loading Screen
