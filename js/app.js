@@ -1,25 +1,16 @@
 const loadTool = async (tools) =>{
     const url = `https://openapi.programming-hero.com/api/ai/tools`
     const res = await fetch(url);
+    toggleSpinner(true);
     const data = await res.json();
     displayTools(data.data.tools.slice(0, 6));
 }
 
 const displayTools = tools =>{
-   
     const toolsContainer = document.getElementById('tools-container');
+    toggleSpinner(false);
     let tool = tools[0];
     toolsContainer.innerHTML = '';
-    //display 6 tools only
-    /* const seeAll = document.getElementById('see-more');
-    if(dataLimit > tools.length){
-        tools = tools.slice(0, 6);
-        seeAll.classList.remove('d-none');
-        }
-        else{
-            seeAll.classList.add('d-none');
-        } */
-    
     tools.forEach(tool =>{
         const toolDiv = document.createElement('div');
         toolDiv.classList.add('col');
@@ -142,38 +133,31 @@ const sortDateAscending = publishedIn =>{
 
 
 
-/* const processSearch = (tools, dataLimit) =>{
-    toggleSpinner(true);
-    loadTool(tools, 6);
-}
-document.getElementById('see-more').addEventListener('click', function(){
-    processSearch();
-});
 
+// document.getElementById('sort-date').addEventListener('click', function(){
+//     toggleSpinner(true);
+//     });
 
-document.getElementById('sort-date').addEventListener('click', function(){
-    toggleSpinner(true);
-    });
- */
 
     
 
-/* const toggleSpinner = isLoading => {
+const toggleSpinner = isLoading => {
 const loaderSection = document.getElementById('spinner');
     if(isLoading){
         loaderSection.classList.remove('d-none');
     }
     else{
         loaderSection.classList.add('d-none');
-        setTimeout(toggleSpinner(false), 5000);
     }
-}  */
+}
 
 loadTool();
 
+// See More Button
 const ShowAllTools = async () => {
     const url = `https://openapi.programming-hero.com/api/ai/tools`
     const res = await fetch(url);
+    toggleSpinner(true);
     const data = await res.json();
     displayTools(data.data.tools);
     const seeMoreButton = document.getElementById('see-more');
