@@ -102,6 +102,7 @@ const loadToolDetails = (id) =>{
 }
 
 const displayToolDetails = tool =>{
+    console.log(tool);
     const modalContent = document.getElementById('modal-content-inside');
     let toolAccuracy = JSON.stringify(tool.accuracy.score);
         modalContent.innerHTML = `
@@ -135,11 +136,8 @@ const displayToolDetails = tool =>{
                     </div>
                     <div>
                     <h5>Integrations</h5>
-                        <ul>
-                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[0] : 'No Data Found'}</li>
-                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[1] : 'No Data Found'}</li>
-                            <li>${tool.integrations && tool.integrations ==='undefine' ? tool.integrations[2] : 'No Data Found'}</li>
-                        </ul>
+                    <ul>${tool.integrations?.length ? tool.integrations.map((name) =>`<li>${name}</li>`).join(''):'No Data Found'}
+                    </ul>
                     </div>
                     </div>
                 </div>
@@ -147,6 +145,8 @@ const displayToolDetails = tool =>{
             <div class="p-3 w-50-lg mr-auto-lg">
                 <div class="border border-secondary-subtle rounded p-4">
                 <div class="position-relative">
+                ${tool.accuracy.score?.length ? tool.accuracy.score.map((toolAccuracy) =>`<div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">[(toolAccuracy)*100 + "% accuracy"]</div>`).join(''):''}
+
                 <div class="z-3 position-absolute top-0 end-0 p-2 m-6 rounded-3 bg-danger text-white">${tool.accuracy.score ? [toolAccuracy*100 + "% accuracy"] : ''}</div>
                 <img src="${tool.image_link[0]}" class="img-fluid rounded">
                 </div>
